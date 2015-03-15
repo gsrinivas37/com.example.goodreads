@@ -18,3 +18,6 @@ Profile Page: <br>
 Database Page:<br>
 <li> 1. Allows to add/delete new readers and books. <br>
 <li> 2. A book can only be deleted if it is not prsent in any of bookshelves of the readers. <br>
+
+<br>
+A sample model file is included. See file model\goodread.model <br>

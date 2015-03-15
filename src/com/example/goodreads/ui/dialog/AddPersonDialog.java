@@ -14,11 +14,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.example.goodreads.GoodReadsPlugin;
+import com.example.goodreads.GoodReadsImages;
+import com.example.goodreads.model.BookShelf;
 import com.example.goodreads.model.DataBase;
 import com.example.goodreads.model.ModelFactory;
 import com.example.goodreads.model.Person;
 
+/**
+ * Dialog class for adding a new reader to the database.
+ * @author sgudla
+ *
+ */
 public class AddPersonDialog extends TitleAreaDialog {
 
 	private Text nameTxt;
@@ -34,7 +40,7 @@ public class AddPersonDialog extends TitleAreaDialog {
 		super.configureShell(shell);
 		shell.setText("Add Reader");
 
-		setTitleImage(GoodReadsPlugin.getDefault().getImageRegistry().get("reader_64"));
+		setTitleImage(GoodReadsImages.getImage(GoodReadsImages.IMG_READER_64));
 	}
 
 	@Override
@@ -56,6 +62,22 @@ public class AddPersonDialog extends TitleAreaDialog {
 	protected void okPressed() {
 		Person person = ModelFactory.eINSTANCE.createPerson();
 		person.setName(nameTxt.getText());
+		
+		//Add three book shelves to every new Reader by default.
+		
+		BookShelf currentShelf = ModelFactory.eINSTANCE.createBookShelf();
+		currentShelf.setName("Currently Reading");
+		
+		BookShelf readShelf = ModelFactory.eINSTANCE.createBookShelf();
+		readShelf.setName("Read");
+		
+		BookShelf toReadShelf = ModelFactory.eINSTANCE.createBookShelf();
+		toReadShelf.setName("To-Read");
+
+		person.getShelves().add(currentShelf);
+		person.getShelves().add(readShelf);
+		person.getShelves().add(toReadShelf);
+		
 		model.getPeople().add(person);
 		super.okPressed();
 	}

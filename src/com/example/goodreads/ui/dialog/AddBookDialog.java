@@ -14,11 +14,16 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import com.example.goodreads.GoodReadsPlugin;
+import com.example.goodreads.GoodReadsImages;
 import com.example.goodreads.model.Book;
 import com.example.goodreads.model.DataBase;
 import com.example.goodreads.model.ModelFactory;
 
+/**
+ * Dialog class for adding a new Book to the database.
+ * @author sgudla
+ *
+ */
 public class AddBookDialog extends TitleAreaDialog {
 
 	private Text nameTxt;
@@ -36,7 +41,7 @@ public class AddBookDialog extends TitleAreaDialog {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText("Add Book");
-		setTitleImage(GoodReadsPlugin.getDefault().getImageRegistry().get("book_64"));
+		setTitleImage(GoodReadsImages.getImage(GoodReadsImages.IMG_BOOK_64));
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
@@ -17,10 +16,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 
-import com.example.goodreads.GoodReadsPlugin;
 import com.example.goodreads.model.Book;
 import com.example.goodreads.model.BookShelf;
 import com.example.goodreads.model.DataBase;
@@ -28,6 +25,7 @@ import com.example.goodreads.model.Person;
 import com.example.goodreads.ui.common.BookTableViewer;
 import com.example.goodreads.ui.common.CustomListViewer;
 import com.example.goodreads.ui.common.GoodReadToolBar;
+import com.example.goodreads.ui.common.PersonLabelProvider;
 import com.example.goodreads.ui.dialog.AddBookDialog;
 import com.example.goodreads.ui.dialog.AddPersonDialog;
 
@@ -100,21 +98,13 @@ public class DataBaseComposite extends Composite {
 		initialize();
 	}
 
+	private void initialize() {
+		bookTableViewer.setInput(model.getBooks().toArray());
+		peopleListViewer.setInput(model.getPeople().toArray());
+	}
+
 	private void addListeners() {
-		peopleListViewer.setLabelProvider(new ColumnLabelProvider(){
-			public String getText(Object element) {
-				if(element instanceof Person){
-					return ((Person)element).getName();
-				}
-				return "";
-			};
-
-			@Override
-			public Image getImage(Object element) {
-				return GoodReadsPlugin.getDefault().getImageRegistry().get("reader");
-			}
-		});
-
+		peopleListViewer.setLabelProvider(new PersonLabelProvider());
 		bookToolBar.addToolItemListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -122,6 +112,7 @@ public class DataBaseComposite extends Composite {
 				int open = dialog.open();
 
 				if(open==IDialogConstants.OK_ID){
+					//Immediately save the changes to file and refresh.
 					bookTableViewer.setInput(model.getBooks().toArray());
 					editor.doSave(new NullProgressMonitor());
 				}
@@ -135,12 +126,16 @@ public class DataBaseComposite extends Composite {
 				if(table.getSelectionIndex()!=-1){
 					TableItem item = table.getItem(table.getSelectionIndex());
 					Book book = (Book) item.getData();
+					
+					// Do not allow to remove a book if it is present in some reader's book shelf.
 					if(book.getPresentIn()!=null && book.getPresentIn().size()!=0){
 						BookShelf shelf = book.getPresentIn().get(0);
 						MessageDialog.openError(Display.getDefault().getActiveShell(), "Error!", 
 								"Selected book is present in \""+ shelf.getName() +"\" book shelf of \""+ shelf.getOwnedBy().getName()+"\"");
 					}else{
 						model.getBooks().remove(book);
+						
+						//Immediately save the changes to file and refresh.
 						bookTableViewer.setInput(model.getBooks().toArray());
 						editor.doSave(new NullProgressMonitor());
 					}
@@ -180,10 +175,5 @@ public class DataBaseComposite extends Composite {
 				}
 			}
 		});
-	}
-
-	private void initialize() {
-		bookTableViewer.setInput(model.getBooks().toArray());
-		peopleListViewer.setInput(model.getPeople().toArray());
 	}
 }

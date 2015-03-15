@@ -47,28 +47,28 @@ public class GoodReadsPlugin extends AbstractUIPlugin {
 		super.initializeImageRegistry(registry);
 		
 		URL url = getBundle().getEntry("icons/book.png"); //$NON-NLS-1$
-		registry.put("book", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_BOOK, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/book_64.png"); //$NON-NLS-1$
-		registry.put("book_64", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_BOOK_64, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/bookshelf.png"); //$NON-NLS-1$
-		registry.put("bookshelf", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_BOOK_SHELF, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/reader.png"); //$NON-NLS-1$
-		registry.put("reader", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_READER, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/reader_64.png"); //$NON-NLS-1$
-		registry.put("reader_64", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_READER_64, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/writer.png"); //$NON-NLS-1$
-		registry.put("writer", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_WRITER, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/add.png"); //$NON-NLS-1$
-		registry.put("add", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_ADD, ImageDescriptor.createFromURL(url));
 		
 		url = getBundle().getEntry("icons/remove.png"); //$NON-NLS-1$
-		registry.put("remove", ImageDescriptor.createFromURL(url));
+		registry.put(GoodReadsImages.IMG_REMOVE, ImageDescriptor.createFromURL(url));
 	}
 	
 	/**

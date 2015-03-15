@@ -9,6 +9,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
+/**
+ * A customer list viewer class is implemented using TableViewer class to be used for Book Shelves, Friends list and Readers list.
+ * Standard list viewer doesn't seem to support images for list items.
+ * @author sgudla
+ *
+ */
 public class CustomListViewer extends TableViewer {
 	private TableViewerColumn columnViewer;
 

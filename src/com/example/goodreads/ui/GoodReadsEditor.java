@@ -63,6 +63,7 @@ public class GoodReadsEditor extends FormEditor implements IResourceChangeListen
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
 		
+		//When moving from Database page to Profile page, refresh the content. Otherwise the updated data will not be reflected.
 		if(newPageIndex==0){
 			profilePage.initialize();
 		}
@@ -75,6 +76,7 @@ public class GoodReadsEditor extends FormEditor implements IResourceChangeListen
 			this.fileEditorInput = (IFileEditorInput) input;
 			IFile file = fileEditorInput.getFile();
 			
+			// Load the file content into the model object.
 			ModelPackage.eINSTANCE.eClass();
 			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("model", new XMIResourceFactoryImpl());
 			Resource resource = new ResourceSetImpl().getResource(URI.createFileURI(file.getLocation().toPortableString()), true);
@@ -110,10 +112,11 @@ public class GoodReadsEditor extends FormEditor implements IResourceChangeListen
 		setPageText(index, DATABASE_PAGE_TITLE);
 	}
 	
+	/**
+	 * Save the changes to the file system.
+	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		ModelPackage.eINSTANCE.eClass();
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("model", new XMIResourceFactoryImpl());
 		Resource resource = new ResourceSetImpl().getResource(URI.createFileURI(fileEditorInput.getFile().getLocation().toPortableString()), true);
 		resource.getContents().clear();
 		resource.getContents().add(model);
@@ -135,6 +138,7 @@ public class GoodReadsEditor extends FormEditor implements IResourceChangeListen
 	
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
+		//Close the editor whenever the project is closed or deleted.
 		if(event.getType()== IResourceChangeEvent.PRE_CLOSE || event.getType()== IResourceChangeEvent.PRE_DELETE){
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override

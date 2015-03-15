@@ -12,12 +12,16 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -26,13 +30,16 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.jface.viewers.ComboViewer;
 
+import com.example.goodreads.GoodReadsImages;
 import com.example.goodreads.GoodReadsPlugin;
+import com.example.goodreads.model.Book;
 import com.example.goodreads.model.BookShelf;
 import com.example.goodreads.model.DataBase;
 import com.example.goodreads.model.Person;
 import com.example.goodreads.ui.common.BookTableViewer;
 import com.example.goodreads.ui.common.CustomListViewer;
 import com.example.goodreads.ui.common.GoodReadToolBar;
+import com.example.goodreads.ui.common.PersonLabelProvider;
 
 /**
  * Composite class for Profile page of Good Reads editor
@@ -47,11 +54,23 @@ public class ProfileComposite extends Composite {
 	private Section booksSection;
 	private Section sctnProfile;
 	private ComboViewer profileComboViewer;
-	private BookTableViewer tableViewer;
+	private BookTableViewer booksTableViewer;
 	private Table friendTable;
 	private CustomListViewer friendListViewer;
 	private GoodReadToolBar friendToolBar;
+	private GoodReadToolBar booksToolBar;
 
+	private GoodReadsEditor editor;
+
+	public ProfileComposite(Composite container, GoodReadsEditor editor, DataBase model, int none) {
+		this(container, none);
+		this.model = model;
+		this.editor = editor;
+		
+		addListeners();
+		initialize();
+	}
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -76,7 +95,9 @@ public class ProfileComposite extends Composite {
 
 		profileComboViewer = new ComboViewer(this, SWT.READ_ONLY);
 		Combo profCombo = profileComboViewer.getCombo();
-		profCombo.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		GridData gd_profCombo = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_profCombo.widthHint = 160;
+		profCombo.setLayoutData(gd_profCombo);
 		toolkit.paintBordersFor(profCombo);
 		profileComboViewer.setContentProvider(new ArrayContentProvider());
 
@@ -126,17 +147,22 @@ public class ProfileComposite extends Composite {
 
 			@Override
 			public Image getImage(Object element) {
-				return GoodReadsPlugin.getDefault().getImageRegistry().get("bookshelf");
+				return GoodReadsImages.getImage(GoodReadsImages.IMG_BOOK_SHELF);
 			}
 		});
 
+		booksToolBar = new GoodReadToolBar(booksSection, SWT.NONE);
+		toolkit.adapt(booksToolBar.getToolBar());
+		toolkit.paintBordersFor(booksToolBar.getToolBar());
+		booksSection.setTextClient(booksToolBar.getToolBar());
+		
 		Composite booksComp = toolkit.createComposite(booksSection, SWT.NONE);
 		toolkit.paintBordersFor(booksComp);
 		booksSection.setClient(booksComp);
 		booksComp.setLayout(new GridLayout(1, false));
 
-		tableViewer = new BookTableViewer(booksComp, SWT.BORDER | SWT.FULL_SELECTION);
-		Table table = tableViewer.getTable();
+		booksTableViewer = new BookTableViewer(booksComp, SWT.BORDER | SWT.FULL_SELECTION);
+		Table table = booksTableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
 
@@ -150,32 +176,35 @@ public class ProfileComposite extends Composite {
 		friendTable.getColumn(0).setWidth(250);
 		sctnFriends.setClient(friendTable);
 
-		friendListViewer.setLabelProvider(new ColumnLabelProvider(){
-			@Override
-			public String getText(Object element) {
-				if(element instanceof Person){
-					return ((Person)element).getName();
-				}
-				return null;
-			}
-
-			@Override
-			public Image getImage(Object element) {
-				return GoodReadsPlugin.getDefault().getImageRegistry().get("reader");
-			}
-		});
+		friendListViewer.setLabelProvider(new PersonLabelProvider());
 
 		friendToolBar = new GoodReadToolBar(sctnFriends, SWT.NONE);
 		toolkit.adapt(friendToolBar.getToolBar());
 		toolkit.paintBordersFor(friendToolBar.getToolBar());
 		sctnFriends.setTextClient(friendToolBar.getToolBar());
+		new Label(profileComposite, SWT.NONE);
 	}
 
+	public void initialize() {
+		profileComboViewer.setInput(model.getPeople().toArray());
+		profileComboViewer.getCombo().select(0);
+
+		Person person = getSelectedProfile();
+		profileSelected(person);
+	}
+	
 	protected void profileSelected(Person profile) {
+		if(profile==null){
+			bookShelfViewer.setInput(null);
+			friendListViewer.setInput(null);
+			return;
+		}
+		
 		sctnProfile.setText(profile.getName());
 		bookShelfViewer.setInput(profile.getShelves().toArray());
 		friendListViewer.setInput(profile.getFriends().toArray());
 
+		// Asynchronously update the books in the bookshelves after the profile is updated.
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -186,7 +215,7 @@ public class ProfileComposite extends Composite {
 					populateBooks(getSelectedShelf());
 				}else{
 					booksSection.setText("");
-					tableViewer.setInput(null);
+					booksTableViewer.setInput(null);
 				}
 			}
 		});
@@ -194,15 +223,7 @@ public class ProfileComposite extends Composite {
 
 	protected void populateBooks(BookShelf bookShelf) {
 		booksSection.setText(bookShelf.getName());
-		tableViewer.setInput(bookShelf.getBooks().toArray());
-	}
-
-	public ProfileComposite(Composite container, GoodReadsEditor editor, DataBase model, int none) {
-		this(container, none);
-		this.model = model;
-
-		addListeners();
-		initialize();
+		booksTableViewer.setInput(bookShelf.getBooks().toArray());
 	}
 
 	private void addListeners() {
@@ -227,20 +248,6 @@ public class ProfileComposite extends Composite {
 		friendToolBar.addToolItemListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				LabelProvider peopleLblProvider = new LabelProvider(){
-					@Override
-					public String getText(Object element) {
-						if(element instanceof Person)
-							return ((Person)element).getName();
-						return "";
-					}
-
-					@Override
-					public Image getImage(Object element) {
-						return GoodReadsPlugin.getDefault().getImageRegistry().get("reader");
-					}
-				};
-				
 				List<Person> list = new ArrayList<Person>();
 				Person selectedProfile = getSelectedProfile();
 				for(Person person : model.getPeople()){
@@ -249,20 +256,116 @@ public class ProfileComposite extends Composite {
 					}
 				}
 				
+				if(list.isEmpty()){
+					MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning!", "All readers are added to the friends list. Please add more readers to the data base.");
+					return;
+				}
+				
 				ListSelectionDialog dlg = new ListSelectionDialog( getShell(), list.toArray(),
 						new ArrayContentProvider(),
-						peopleLblProvider,
+						new PersonLabelProvider(),
 				"Select friends to add:");
 				dlg.setTitle("Add friends");
-				dlg.open();
-
+				int open = dlg.open();
+				
+				if(open == IDialogConstants.OK_ID){
+					Object[] selected = dlg.getResult();
+					for(Object object: selected){
+						if(object instanceof Person){
+							getSelectedProfile().getFriends().add((Person) object);
+						}
+					}
+					
+					//Immediately save the changes to file and refresh.
+					editor.doSave(new NullProgressMonitor());
+					friendListViewer.setInput(getSelectedProfile().getFriends().toArray());
+				}
 			}
 		});
 
 		friendToolBar.removeToolItemListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Table table = friendListViewer.getTable();
+				if(table.getSelectionIndex()!=-1){
+					TableItem item = table.getItem(table.getSelectionIndex());
+					Person person = (Person) item.getData();
+					getSelectedProfile().getFriends().remove(person);
+					
+					//Immediately save the changes to file and refresh.
+					editor.doSave(new NullProgressMonitor());
+					friendListViewer.setInput(getSelectedProfile().getFriends().toArray());
+				}
+			}
+		});
+		
+		booksToolBar.addToolItemListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				LabelProvider bookLblProvider = new LabelProvider(){
+					@Override
+					public String getText(Object element) {
+						if(element instanceof Book)
+							return ((Book)element).getName();
+						return "";
+					}
 
+					@Override
+					public Image getImage(Object element) {
+						return GoodReadsPlugin.getDefault().getImageRegistry().get("book");
+					}
+				};
+				
+				List<Book> list = new ArrayList<Book>();
+				List<Book> addedBooks = new ArrayList<Book>();
+				
+				//Filter all the books present in other bookshelves too.
+				for(BookShelf shelf: getSelectedProfile().getShelves()){
+					addedBooks.addAll(shelf.getBooks());
+				}
+				
+				for(Book book : model.getBooks()){
+					if(!addedBooks.contains(book)){
+						list.add(book);
+					}
+				}
+				
+				if(list.isEmpty()){
+					MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning!", "All books are added to the book shelves. Please add more books to the data base.");
+					return;
+				}
+				
+				ListSelectionDialog dlg = new ListSelectionDialog( getShell(), list.toArray(),
+						new ArrayContentProvider(),
+						bookLblProvider,
+				"Select books to add to the shelf:");
+				dlg.setTitle("Add books to the shelf");
+				int open = dlg.open();
+				
+				if(open == IDialogConstants.OK_ID){
+					Object[] selected = dlg.getResult();
+					for(Object object: selected){
+						if(object instanceof Book){
+							getSelectedShelf().getBooks().add((Book) object);
+						}
+					}
+					editor.doSave(new NullProgressMonitor());
+					booksTableViewer.setInput(getSelectedShelf().getBooks().toArray());
+				}
+			}
+		});
+		
+		booksToolBar.removeToolItemListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Table table = booksTableViewer.getTable();
+				if(table.getSelectionIndex()!=-1){
+					TableItem item = table.getItem(table.getSelectionIndex());
+					Book book = (Book) item.getData();
+					getSelectedShelf().getBooks().remove(book);
+					editor.doSave(new NullProgressMonitor());
+					booksTableViewer.setInput(getSelectedShelf().getBooks().toArray());
+				}
 			}
 		});
 	}
@@ -291,13 +394,5 @@ public class ProfileComposite extends Composite {
 			}
 		}
 		return null;
-	}
-
-	public void initialize() {
-		profileComboViewer.setInput(model.getPeople().toArray());
-		profileComboViewer.getCombo().select(0);
-
-		Person person = getSelectedProfile();
-		profileSelected(person);
 	}
 }

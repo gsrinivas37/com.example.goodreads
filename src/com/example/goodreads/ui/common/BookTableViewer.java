@@ -9,36 +9,32 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-
-import com.example.goodreads.GoodReadsPlugin;
+import com.example.goodreads.GoodReadsImages;
 import com.example.goodreads.model.Book;
 
+/**
+ * Table Viewer class for showing Book details.
+ * @author sgudla
+ *
+ */
 public class BookTableViewer extends TableViewer {
 
+	private static final String[] COLUMN_NAMES = {"Name", "Author", "Rating"};
+	private static final int[] COLUMN_WIDTH= {250, 150, 70};
+	
 	public BookTableViewer(Composite parent, int style) {
 		super(parent, style);
 		
 		Table table = getTable();
 		table.setHeaderVisible(true);
 		
-		TableViewerColumn nameViewerColumn = new TableViewerColumn(this, SWT.NONE);
-		TableColumn tblclmnName = nameViewerColumn.getColumn();
-		tblclmnName.setWidth(250);
-		tblclmnName.setText("Name");
-		nameViewerColumn.setLabelProvider(new BookTableLabelProvider(0));
-		
-		TableViewerColumn authorViewerColumn = new TableViewerColumn(this, SWT.NONE);
-		TableColumn tblclmnAuthor = authorViewerColumn.getColumn();
-		tblclmnAuthor.setWidth(150);
-		tblclmnAuthor.setText("Author");
-		authorViewerColumn.setLabelProvider(new BookTableLabelProvider(1));
-		
-		TableViewerColumn ratingViewerColumn = new TableViewerColumn(this, SWT.NONE);
-		TableColumn tblclmnRating = ratingViewerColumn.getColumn();
-		tblclmnRating.setWidth(70);
-		tblclmnRating.setText("Rating");
-		ratingViewerColumn.setLabelProvider(new BookTableLabelProvider(2));
-		
+		for(int i=0; i<COLUMN_NAMES.length; i++){
+			TableViewerColumn tableColumnViewer = new TableViewerColumn(this, SWT.NONE);
+			TableColumn tblclmn = tableColumnViewer.getColumn();
+			tblclmn.setWidth(COLUMN_WIDTH[i]);
+			tblclmn.setText(COLUMN_NAMES[i]);
+			tableColumnViewer.setLabelProvider(new BookTableLabelProvider(i));
+		}
 		setContentProvider(new ArrayContentProvider());
 	}
 }
@@ -72,8 +68,8 @@ class BookTableLabelProvider extends ColumnLabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		switch(col){
-		case 0: return GoodReadsPlugin.getDefault().getImageRegistry().get("book");
-		case 1: return GoodReadsPlugin.getDefault().getImageRegistry().get("writer");
+		case 0: return GoodReadsImages.getImage(GoodReadsImages.IMG_BOOK);
+		case 1: return GoodReadsImages.getImage(GoodReadsImages.IMG_WRITER);
 		default:
 			return null;
 		}

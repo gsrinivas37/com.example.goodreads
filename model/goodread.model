@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<goodreads:DataBase xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:goodreads="www.example.com/goodreads">
+  <people name="Srinivas Gudla" friends="//@people.1 //@people.2 //@people.3 //@people.4 //@people.5 //@people.6 //@people.7 //@people.8 //@people.9 //@people.10">
+    <shelves name="Currently Reading" books="//@books.0 //@books.1"/>
+    <shelves name="Read" books="//@books.2 //@books.3 //@books.4 //@books.5 //@books.6 //@books.7 //@books.8 //@books.9 //@books.10 //@books.11 //@books.12 //@books.13 //@books.14 //@books.15 //@books.16 //@books.17 //@books.18 //@books.19 //@books.20"/>
+    <shelves name="To-Read" books="//@books.21 //@books.22 //@books.23 //@books.24 //@books.25"/>
+  </people>
+  <people name="Tony" friends="//@people.4 //@people.7 //@people.10">
+    <shelves name="Currently Reading" books="//@books.2 //@books.5 //@books.11"/>
+    <shelves name="Read" books="//@books.7 //@books.10"/>
+    <shelves name="To-Read" books="//@books.0 //@books.9 //@books.17"/>
+  </people>
+  <people name="Michael" friends="//@people.5 //@people.7 //@people.10">
+    <shelves name="Currently Reading" books="//@books.5 //@books.6 //@books.9 //@books.11"/>
+    <shelves name="Read" books="//@books.1 //@books.7 //@books.14"/>
+    <shelves name="To-Read" books="//@books.3 //@books.12 //@books.19"/>
+  </people>
+  <people name="Rob" friends="//@people.5 //@people.8">
+    <shelves name="Currently Reading" books="//@books.1 //@books.4"/>
+    <shelves name="Read" books="//@books.3 //@books.7 //@books.10 //@books.14 //@books.15"/>
+    <shelves name="To-Read" books="//@books.9 //@books.13 //@books.19"/>
+  </people>
+  <people name="Santhosh" friends="//@people.6 //@people.8">
+    <shelves name="Currently Reading" books="//@books.1 //@books.4 //@books.10"/>
+    <shelves name="Read" books="//@books.2 //@books.6 //@books.7 //@books.9 //@books.12"/>
+    <shelves name="To-Read" books="//@books.3 //@books.11 //@books.16"/>
+  </people>
+  <people name="Praveen" friends="//@people.1 //@people.3 //@people.8 //@people.10">
+    <shelves name="Currently Reading" books="//@books.2 //@books.5"/>
+    <shelves name="Read" books="//@books.1 //@books.7"/>
+    <shelves name="To-Read"/>
+  </people>
+  <people name="Pallavi" friends="//@people.0 //@people.1 //@people.2 //@people.5 //@people.9">
+    <shelves name="Currently Reading" books="//@books.4"/>
+    <shelves name="Read" books="//@books.1 //@books.3 //@books.7 //@books.8 //@books.9 //@books.10 //@books.11 //@books.12 //@books.13"/>
+    <shelves name="To-Read" books="//@books.2 //@books.6"/>
+  </people>
+  <people name="Sravanthi" friends="//@people.0 //@people.1 //@people.2 //@people.4 //@people.8">
+    <shelves name="Currently Reading" books="//@books.1 //@books.10"/>
+    <shelves name="Read" books="//@books.3 //@books.4 //@books.7 //@books.9 //@books.12 //@books.13 //@books.15"/>
+    <shelves name="To-Read" books="//@books.5 //@books.8"/>
+  </people>
+  <people name="Kalpana" friends="//@people.0 //@people.5 //@people.6 //@people.7 //@people.9 //@people.10">
+    <shelves name="Currently Reading" books="//@books.7"/>
+    <shelves name="Read" books="//@books.1 //@books.2 //@books.6 //@books.9 //@books.11 //@books.12 //@books.13"/>
+    <shelves name="To-Read" books="//@books.3 //@books.4 //@books.10 //@books.19"/>
+  </people>
+  <people name="Jim" friends="//@people.0 //@people.3 //@people.4">
+    <shelves name="Currently Reading" books="//@books.1"/>
+    <shelves name="Read" books="//@books.0 //@books.3 //@books.7 //@books.10 //@books.13"/>
+    <shelves name="To-Read" books="//@books.8 //@books.12 //@books.17"/>
+  </people>
+  <people name="Martin" friends="//@people.0 //@people.6 //@people.7 //@people.8">
+    <shelves name="Currently Reading" books="//@books.6"/>
+    <shelves name="Read" books="//@books.1 //@books.3 //@books.8 //@books.12 //@books.14"/>
+    <shelves name="To-Read" books="//@books.2 //@books.15 //@books.18"/>
+  </people>
+  <books name="Thinking Fast and Slow" author="Kahneman, Daniel" avgRating="3" presentIn="//@people.0/@shelves.0 //@people.1/@shelves.2 //@people.9/@shelves.1"/>
+  <books name="How to Win Friends and Influence People" author="Carnegie, Dale" avgRating="4" presentIn="//@people.0/@shelves.0 //@people.2/@shelves.1 //@people.3/@shelves.0 //@people.4/@shelves.0 //@people.5/@shelves.1 //@people.6/@shelves.1 //@people.7/@shelves.0 //@people.8/@shelves.1 //@people.9/@shelves.0 //@people.10/@shelves.1"/>
+  <books name="The Discovery of India" author="Nehru, Jawaharlal" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.1/@shelves.0 //@people.4/@shelves.1 //@people.5/@shelves.0 //@people.6/@shelves.2 //@people.8/@shelves.1 //@people.10/@shelves.2"/>
+  <books name="How Google Works" author="Eric Schmidt" avgRating="3" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.2 //@people.3/@shelves.1 //@people.4/@shelves.2 //@people.6/@shelves.1 //@people.7/@shelves.1 //@people.8/@shelves.2 //@people.9/@shelves.1 //@people.10/@shelves.1"/>
+  <books name="The Presentation Secrets of Steve Jobs" author="Gallo, Carmine" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.3/@shelves.0 //@people.4/@shelves.0 //@people.6/@shelves.0 //@people.7/@shelves.1 //@people.8/@shelves.2"/>
+  <books name="I am Malala" author="Yousafzai, Malala" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.0 //@people.1/@shelves.0 //@people.5/@shelves.0 //@people.7/@shelves.2"/>
+  <books name="Argumentative Indian" author="Sen, Amartya" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.0 //@people.4/@shelves.1 //@people.6/@shelves.2 //@people.8/@shelves.1 //@people.10/@shelves.0"/>
+  <books name="No Limits: The Will to Succeed" author="Phelps, Michael" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.1 //@people.1/@shelves.1 //@people.3/@shelves.1 //@people.4/@shelves.1 //@people.5/@shelves.1 //@people.6/@shelves.1 //@people.7/@shelves.1 //@people.8/@shelves.0 //@people.9/@shelves.1"/>
+  <books name="Letters from a Father to his Daughter" author="Nehru, Jawaharlal" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.6/@shelves.1 //@people.7/@shelves.2 //@people.9/@shelves.2 //@people.10/@shelves.1"/>
+  <books name="The Race of My Life: An Autobiography" author="Singh, Milkha" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.0 //@people.1/@shelves.2 //@people.3/@shelves.2 //@people.4/@shelves.1 //@people.6/@shelves.1 //@people.7/@shelves.1 //@people.8/@shelves.1"/>
+  <books name="It's Not About the Bike" author="Armstrong, Lance" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.1/@shelves.1 //@people.3/@shelves.1 //@people.4/@shelves.0 //@people.6/@shelves.1 //@people.7/@shelves.0 //@people.8/@shelves.2 //@people.9/@shelves.1"/>
+  <books name="Born to Run" author="McDougall, Christopher" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.0 //@people.1/@shelves.0 //@people.4/@shelves.2 //@people.6/@shelves.1 //@people.8/@shelves.1"/>
+  <books name="The Last Lecture" author="Pausch, Randy" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.2 //@people.4/@shelves.1 //@people.6/@shelves.1 //@people.7/@shelves.1 //@people.8/@shelves.1 //@people.9/@shelves.2 //@people.10/@shelves.1"/>
+  <books name="Open" author="Agassi, Andre" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.3/@shelves.2 //@people.6/@shelves.1 //@people.7/@shelves.1 //@people.8/@shelves.1 //@people.9/@shelves.1"/>
+  <books name="The Fountainhead" author="Rand, Ayn" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.1 //@people.3/@shelves.1 //@people.10/@shelves.1"/>
+  <books name="The Other Side of Me" author="Sheldon, Sidney" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.3/@shelves.1 //@people.7/@shelves.1 //@people.10/@shelves.2"/>
+  <books name="Steve Jobs" author="Isaacson, Walter " avgRating="4" presentIn="//@people.0/@shelves.1 //@people.4/@shelves.2"/>
+  <books name="The Monk Who Sold His Ferrari" author="Sharma, Robin S" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.1/@shelves.2 //@people.9/@shelves.2"/>
+  <books name="Tell Me Your Dreams" author="Sheldon, Sidney" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.10/@shelves.2"/>
+  <books name="Rage of Angels" author="Sheldon, Sidney" avgRating="4" presentIn="//@people.0/@shelves.1 //@people.2/@shelves.2 //@people.3/@shelves.2 //@people.8/@shelves.2"/>
+  <books name="Master of the Game" author="Sheldon, Sidney" avgRating="4" presentIn="//@people.0/@shelves.1"/>
+  <books name="Atlas Shrugged" author="Rand, Ayn" avgRating="4" presentIn="//@people.0/@shelves.2"/>
+  <books name="A Skating Life: My Story" author="Hamill, Dorothy" avgRating="4" presentIn="//@people.0/@shelves.2"/>
+  <books name="Light From Many Lamps" author="Watson, Lillian" avgRating="4" presentIn="//@people.0/@shelves.2"/>
+  <books name="Fasting and Eating for Health" author="Fuhrman, Joel " avgRating="4" presentIn="//@people.0/@shelves.2"/>
+  <books name="Eat to Live" author="Fuhrman, Joel" avgRating="4" presentIn="//@people.0/@shelves.2"/>
+</goodreads:DataBase>

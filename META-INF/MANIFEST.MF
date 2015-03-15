@@ -12,8 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.1",
  org.eclipse.ui.forms;bundle-version="3.6.100",
  org.eclipse.core.resources;bundle-version="3.9.1",
- org.eclipse.ui.ide;bundle-version="3.10.1",
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.ui.ide;bundle-version="3.10.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.example.goodreads.model,
  com.example.goodreads.model.impl,

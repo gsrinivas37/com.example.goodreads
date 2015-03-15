@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated goodreads -->
+      <package
+            uri="www.example.com/goodreads"
+            class="com.example.goodreads.model.ModelPackage"
+            genModel="model/goodreads.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+          <editor
+            class="com.example.goodreads.ui.GoodReadsEditor"
+            default="true"
+            icon="icons/goodread.png"
+            extensions="model"
+            id="com.example.goodreads.model.editor"
+            name="Good Reads">
+      </editor>
+   </extension>
+
+</plugin>
